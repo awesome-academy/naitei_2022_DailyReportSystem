@@ -1,13 +1,12 @@
 package trainingManagementSystem.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import trainingManagementSystem.dao.DivisionDao;
-import trainingManagementSystem.model.Division;
+import trainingManagementSystem.dao.*;
+import trainingManagementSystem.model.*;
 
 @Component
 @Service
@@ -24,4 +23,12 @@ public class DivisionServices {
 		}
 	}
 
+	// get by id
+	public Division getById(int id) {
+		try {
+			return divisionDao.getById(id);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }
