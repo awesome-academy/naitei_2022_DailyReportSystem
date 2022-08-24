@@ -32,6 +32,8 @@
     <!-- Libraries Stylesheet -->
     <link href="<c:url value="/assets/common/lib/owlcarousel/assets/owl.carousel.min.css"/>" rel="stylesheet">
     <link href="<c:url value="/assets/common/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css"/>" rel="stylesheet">
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <head/>
 
 <div class="container-fluid position-relative d-flex p-0">

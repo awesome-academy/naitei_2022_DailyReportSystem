@@ -39,7 +39,6 @@ public class AdminController {
 	//Add a Division
 	@RequestMapping(value = { "/admin/divisions/create" }, method = RequestMethod.POST)
 	public String saveDivision(ModelMap model, @ModelAttribute("division") Division division) {
-
 		divisionService.saveDivision(division);
 		
 		model.addAttribute("message", "Success adding division!");

@@ -23,16 +23,12 @@ public class ManagerController {
 	@Autowired
 	ManagerServices managerService;
 
-	@RequestMapping(value = { "/", "divisions/{id}" }, method = RequestMethod.GET)
-	public ModelAndView index() {
+	@RequestMapping(value = "divisions/{id}", method = RequestMethod.GET)
+	public ModelAndView index(@PathVariable("id") int id) {
 		
 		ModelAndView mv = new ModelAndView("managers/manage_division");
-		List<User> users = userServices.getAllUser();
-		mv.addObject("users", users);
-
-		Division division = divisionServices.getById(1);
-		mv.addObject("division", division);
-
+		mv.addObject("users", userServices.getUserByDivisionId(id));	 
+		mv.addObject("division", divisionServices.getById(id));
 		return mv;
 	}
 
@@ -54,5 +50,30 @@ public class ManagerController {
 		model.addAttribute("report", report);
 
 		return "managers/comments";
+	}
+	
+	@RequestMapping(value="/{id}/remove", method=RequestMethod.POST)
+	@ResponseBody
+	public String removeUserFromDivision(@PathVariable("id") int id) {
+			userServices.removeUserFromDivision(id);
+			return "success";
+	}
+	
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
+	public ModelAndView addUser() {
+		ModelAndView mv = new ModelAndView("managers/add_user");
+		mv.addObject("users", userServices.getNewUsers());
+		return mv;
+	}
+	
+	@RequestMapping(value="/add-user/{divisionId}/{userId}", method=RequestMethod.POST)
+	@ResponseBody
+	public String addUserToDivision(@PathVariable("userId") int userId, @PathVariable("divisionId") int divisionId) {
+		try {
+			userServices.addUserToDivision(divisionId, userId);
+			return "success";
+		} catch(Exception e) {
+			return "error";
+		}
 	}
 }

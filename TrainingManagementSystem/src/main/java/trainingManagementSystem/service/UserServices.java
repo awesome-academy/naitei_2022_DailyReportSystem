@@ -1,6 +1,5 @@
 package trainingManagementSystem.service;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class UserServices {
 		try {
 			return userDao.getAllUser();
 		} catch (Exception e) {
-			throw e;
+			throw null;
 		}
 	}
 
@@ -40,7 +39,7 @@ public class UserServices {
 		try {
 			return userDao.getById(id, isLock);
 		} catch (Exception e) {
-			throw e;
+			throw null;
 		}
 	}
 
@@ -62,6 +61,7 @@ public class UserServices {
 		}
 	}
 
+
 	public List<Object[]> loadUsersNotinManagerID() {
 		try {
 			return userDao.loadUsersNotinManagerID();
@@ -69,5 +69,41 @@ public class UserServices {
 			return Collections.emptyList();
 		}
 	}
+	
+	// [manager] remove user from division
+	public void removeUserFromDivision(int id) {
+		try {
+			userDao.removeUserFromDivision(id);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	// [manager] get user by divisionid
+	public List<User> getUserByDivisionId(int divisionId) {
+		try {
+			return userDao.getUserByDivisionId(divisionId);
+		} catch (Exception e) {
+			return Collections.emptyList();
+		}
+	}
 
+	
+	// [manager] get new users (who do not belong to a division)
+	public List<User> getNewUsers() {
+		try {
+			return userDao.getNewUsers();
+		} catch (Exception e) {
+			return Collections.emptyList();
+		}
+	}
+	
+	// [manager] add a user to a division
+	public void addUserToDivision(int divisionId, int userId) {
+		try {
+			userDao.addUserToDivision(divisionId, userId);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }
