@@ -11,6 +11,8 @@
 		<div class="navbar-nav w-100">
 			<a href="${baseURL}" class="nav-item nav-link" id="dashboard"><i
 				class="fa fa-tachometer-alt me-2"></i>Trang chủ</a> 
+			<a href="/TrainingManagementSystem/managers/reports?pageNumber=1" class="nav-item nav-link" id="dashboard"><i
+				class="fa fa-tachometer-alt me-2"></i>Quản lý báo cáo</a> 
 		</div>
 
 	</nav>

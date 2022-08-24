@@ -31,7 +31,7 @@ public class User extends BaseEntity {
 
 	private Role role;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "divisionId")
 	private Division division;
 

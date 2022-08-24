@@ -13,21 +13,38 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @MappedSuperclass
 public abstract class BaseEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-    public Integer getId() {
+
+	@Column(updatable = false)
+	@CreationTimestamp
+	private LocalDateTime createdAt;
+	@UpdateTimestamp
+	private LocalDateTime updatedAt;
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public Integer getId() {
 		return id;
 	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	@Column(updatable = false)
-    @CreationTimestamp
-    private LocalDateTime createdAt;
-    @UpdateTimestamp
-    private LocalDateTime updatedAt;
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 }

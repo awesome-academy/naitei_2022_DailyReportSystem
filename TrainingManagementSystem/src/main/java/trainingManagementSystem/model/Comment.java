@@ -7,20 +7,22 @@ import javax.persistence.ManyToOne;
 
 @Entity(name = "Comments")
 public class Comment extends BaseEntity {
-	private Integer reportId;
 	private String content;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userId")
 	private User user;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "reportId")
+	private Report report;
 
 	public Comment() {
 		super();
 	}
 
-	public Comment(Integer reportId, String content) {
+	public Comment(String content) {
 		super();
-		this.reportId = reportId;
 		this.content = content;
 	}
 
@@ -28,8 +30,8 @@ public class Comment extends BaseEntity {
 		return content;
 	}
 
-	public Integer getReportId() {
-		return reportId;
+	public Report getReport() {
+		return report;
 	}
 
 	public User getUser() {
@@ -40,8 +42,8 @@ public class Comment extends BaseEntity {
 		this.content = content;
 	}
 
-	public void setReportId(Integer reportId) {
-		this.reportId = reportId;
+	public void setReport(Report report) {
+		this.report = report;
 	}
 
 	public void setUser(User user) {

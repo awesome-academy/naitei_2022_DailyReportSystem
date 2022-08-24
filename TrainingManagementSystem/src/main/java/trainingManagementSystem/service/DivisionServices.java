@@ -31,4 +31,13 @@ public class DivisionServices {
 			return null;
 		}
 	}
+
+	// pagination reports
+	public List<Report> paginationReports(int divisionId, int pageNumber, int pageSize) {
+		try {
+			return divisionDao.paginationReports(divisionId, pageNumber, pageSize);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }
