@@ -25,7 +25,7 @@ public class ManagerController {
 
 	@RequestMapping(value = { "/", "divisions/{id}" }, method = RequestMethod.GET)
 	public ModelAndView index() {
-
+		
 		ModelAndView mv = new ModelAndView("managers/manage_division");
 		List<User> users = userServices.getAllUser();
 		mv.addObject("users", users);

@@ -7,7 +7,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-    <title>TMS Admin</title>
+    <title>TMS</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -18,8 +18,7 @@
     <!-- Template Stylesheet -->
 
     <link href="<c:url value="/assets/common/css/style.css"/>" rel="stylesheet">
-	<link href="<c:url value="/assets/admins/css/createDivision.css"/>" rel="stylesheet">
-	
+
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,14 +33,8 @@
     <link href="<c:url value="/assets/common/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css"/>" rel="stylesheet">
 <head/>
 
-<div class="container-fluid position-relative d-flex p-0">
-	<%@ include file="/WEB-INF/views/layouts/common-components/spinner.jsp" %>
-	<%@ include file="/WEB-INF/views/layouts/admins-components/sidebar.jsp"%>
-	<div class="content">
-		<%@ include file="/WEB-INF/views/layouts/users-components/navbar.jsp"%>
-		<decorator:body />
-	</div>
-</div>
+<%@ include file="/WEB-INF/views/layouts/common-components/spinner.jsp" %>
+<decorator:body />
 
 <div>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

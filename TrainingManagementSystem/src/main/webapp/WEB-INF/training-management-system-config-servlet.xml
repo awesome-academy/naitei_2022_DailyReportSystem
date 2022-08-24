@@ -18,6 +18,9 @@
 
 	<context:component-scan
 		base-package="trainingManagementSystem"></context:component-scan>
+		
+	<!-- Scan the JavaConfig -->
+	<context:component-scan base-package="security" />
 
 	<tx:annotation-driven />
 	<mvc:annotation-driven></mvc:annotation-driven>
@@ -67,7 +70,8 @@
 
 	</bean>
 
-	<bean class="org.springframework.orm.hibernate5.HibernateTemplate"
+	<bean 
+		class="org.springframework.orm.hibernate5.HibernateTemplate"
 		name="hibernateTemplate">
 		<property name="sessionFactory" ref="factory"></property>
 
@@ -78,4 +82,5 @@
 		name="transactionManager">
 		<property name="sessionFactory" ref="factory"></property>
 	</bean>
+
 </beans>

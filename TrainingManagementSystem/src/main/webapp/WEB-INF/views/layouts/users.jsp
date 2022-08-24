@@ -35,7 +35,7 @@
 <head/>
 
 <div class="container-fluid position-relative d-flex p-0">
-	<%@ include file="/WEB-INF/views/layouts/users-components/spinner.jsp" %>
+	<%@ include file="/WEB-INF/views/layouts/common-components/spinner.jsp" %>
 	<%@ include file="/WEB-INF/views/layouts/users-components/sidebar.jsp"%>
 	<div class="content">
 		<%@ include file="/WEB-INF/views/layouts/users-components/navbar.jsp"%>
