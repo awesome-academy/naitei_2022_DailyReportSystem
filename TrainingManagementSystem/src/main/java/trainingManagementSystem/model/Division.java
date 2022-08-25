@@ -8,19 +8,25 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
 
 @Entity(name = "Divisions")
 public class Division extends BaseEntity {
 	private String name;
 	private String description;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "division")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "division", cascade={CascadeType.PERSIST})
 	private List<User> users;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
     @JoinColumn(name = "managerId", referencedColumnName = "id")
 	private User manager;
-
+	
+	@PreRemove
+	private void preRemove() {
+	   users.forEach( child -> child.setDivision(null));
+	}
+	
 	public Division() {
 		super();
 	}

@@ -20,8 +20,8 @@
 		<c:set var="Income" scope="session"
 			value="${baseURL}/admin/divisions/create" />
 		<h1 class="text-center addDivision">Thêm bộ phận</h1>
-		<form:form action="${baseURL}/admin/divisions/create"
-			method="POST" modelAttribute="division" class="createDivisionForm">
+		<form:form action="${baseURL}/admin/divisions/create" method="POST"
+			modelAttribute="division" class="createDivisionForm">
 			<form:hidden path="id" />
 			<form:label path="name">Tên:</form:label>
 			<form:input path="name" class="form-control" />
@@ -33,10 +33,9 @@
 
 			<form:label path="manager.id">Manager ID:</form:label>
 			<form:select path="manager.id">
-				<c:forEach items="${loadUsersNotinManagerID}" var="firstVar">
-					<form:option value="${firstVar}" label="${firstVar}"
-						selected="${selected}" />
 
+				<c:forEach items="${loadUsersNotinManagerID}" var="user">
+					<form:option value="${user.id}" label="${user.id} - ${user.name}" />
 				</c:forEach>
 			</form:select>
 

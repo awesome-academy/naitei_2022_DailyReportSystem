@@ -29,7 +29,6 @@ public class AdminController {
 		return "admins/index";
 	}
 
-
 	@RequestMapping(value = { "/admin/divisions/new" }, method = RequestMethod.GET)
 	public String AddNewDivision(ModelMap model) {
 		model.addAttribute("loadUsersNotinManagerID", userServices.loadUsersNotinManagerID());
@@ -37,7 +36,14 @@ public class AdminController {
 		return "admins/createDivision";
 	}
 
-	//Add a Division
+	@RequestMapping(value = { "/admin/DivisionInfomation" }, method = RequestMethod.GET)
+	public String DivisionInfomation(@RequestParam int id, ModelMap model) {
+		model.addAttribute("getUserByDivisionId", userServices.getAllUserByDivisionId(id));
+		model.addAttribute("getDivisionById", divisionService.getById(id));
+		return "admins/getUsersOfDivision";
+	}
+
+	// Add a Division
 
 	@RequestMapping(value = { "/admin/divisions/create" }, method = RequestMethod.POST)
 	public String saveDivision(ModelMap model, @ModelAttribute("division") Division division) {
@@ -45,6 +51,15 @@ public class AdminController {
 		divisionService.saveDivision(division);
 		model.addAttribute("message", "Success adding division!");
 		return "redirect:/admin";
+	}
+
+	// Remove a Division
+	@RequestMapping(value = { "/admin/divisions/remove" })
+	public String RemoveDivision(@RequestParam int id, @ModelAttribute("division") Division division) {
+		divisionService.getById(id);
+		divisionService.deleteDivision(id); 
+		return "redirect:/admin";
+
 	}
 
 }

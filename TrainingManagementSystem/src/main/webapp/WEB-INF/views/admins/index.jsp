@@ -34,6 +34,7 @@
 					<th scope="col">Manager ID</th>
 					<th scope="col">Hành động</th>
 					<th scope="col"></th>
+					<th scope="col"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -44,13 +45,40 @@
 						<td>${division.getManager().getId()}</td>
 						<td><i class="fas fa-edit EditIcon me-3"></i> <i
 							class="fas fa-trash-alt TrashIcon"></i></td>
-						<td><a class="btn btn-warning seeDetailButton" href="#"
-							role="button">Xem chi tiết <i class="fas fa-eye"></i></a></td>
+						<td><a class="btn btn-warning seeDetailButton"
+							href="${baseURL}/admin/DivisionInfomation?id=${division.id}"
+							role="button">Xem chi tiết <i class="fas fa-eye"></i></a> <!-- Button trigger modal -->
+							<button type="button" class="btn btn-primary"
+								data-bs-toggle="modal" data-bs-target="#exampleModal">
+								Xóa</button> <!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1"
+								aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel"
+												style="color: black">Xóa bộ phận</h5>
+											<button type="button" class="btn-close"
+												data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body" style="color: black">Bạn có muốn
+											xóa bộ phận?</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">Đóng</button>
+											<a class="btn btn-warning "
+												href="${baseURL}/admin/divisions/remove?id=${division.id}"
+												role="button">Đồng ý </a>
+										</div>
+									</div>
+								</div>
+							</div></td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
+
 
 
 

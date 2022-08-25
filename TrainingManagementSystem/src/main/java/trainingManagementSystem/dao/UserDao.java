@@ -1,9 +1,11 @@
 package trainingManagementSystem.dao;
 
 import java.util.List;
-
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 //import org.hibernate.Query;
@@ -48,7 +50,6 @@ public class UserDao {
 		hibernateTemplate.update(user);
 	}
 
-	// get users in a division
 	public List<User> getUserByDivisionId(int divisionId) {
 		Session session = hibernateTemplate.getSessionFactory().openSession();
 
@@ -60,7 +61,18 @@ public class UserDao {
 		selectQuery = selectQuery.where(criteriaBuilder.equal(root.get("role"), 1));
 		TypedQuery<User> typedQuery = session.createQuery(selectQuery);
 		List<User> users = typedQuery.getResultList();
-		
+
+		session.close();
+		return users;
+	}
+
+	// get users in a division
+	public List<User> getAllUserByDivisionId(int divisionId) {
+		Session session = hibernateTemplate.getSessionFactory().openSession();
+		Query<User> query = session.createNativeQuery("select * from users u where u.divisionId= :divisionId",
+				User.class);
+		query.setParameter("divisionId", divisionId);
+		List<User> users = query.list();
 		session.close();
 		return users;
 	}
@@ -78,8 +90,7 @@ public class UserDao {
 		tx.commit();
 		session.close();
 	}
-	
-	
+
 	// [manager] add a user to a division
 	public void addUserToDivision(int divisionId, int userId) {
 		try {
@@ -99,8 +110,7 @@ public class UserDao {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	// [manager] get new users (who do not belong to a division)
 	@SuppressWarnings("unchecked")
 	public List<User> getNewUsers() {
@@ -114,19 +124,20 @@ public class UserDao {
 //			selectQuery = selectQuery.where(criteriaBuilder.isNull(root.get("division")));
 //			TypedQuery<User> typedQuery = session.createQuery(selectQuery);
 //			List<User> users = typedQuery.getResultList();
-			
-			Query<User> query = session.createNativeQuery("select * from users u where u.divisionId is null and role=1", User.class);
+
+			Query<User> query = session.createNativeQuery("select * from users u where u.divisionId is null and role=1",
+					User.class);
 			List<User> users = query.list();
-			
+
 			System.out.println(users);
-			
+
 			session.close();
 			return users;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw e;
 		}
-	}	
-	
+	}
+
 	// delete user
 	@Transactional
 	public void deleteUser(Long id)
@@ -140,10 +151,13 @@ public class UserDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Object[]> loadUsersNotinManagerID() {
+	public List<User> loadUsersNotinManagerID() {
 		Session session = hibernateTemplate.getSessionFactory().openSession();
-		Query query = (Query) session.createSQLQuery("select u.id FROM Users u WHERE u.id NOT IN (SELECT d.managerId FROM Divisions d)");
-		List<Object[]> results = query.list();
-		return results;
+		Query<User> query = session
+				.createNativeQuery("select * FROM Users u WHERE u.id NOT IN (SELECT d.managerId FROM Divisions d)"
+						+ "AND (u.role=0 OR u.role=1)", User.class);
+		List<User> users = query.list();
+		return users;
 	}
+
 }

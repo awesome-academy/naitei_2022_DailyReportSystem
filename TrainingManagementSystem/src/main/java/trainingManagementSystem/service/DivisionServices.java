@@ -40,10 +40,20 @@ public class DivisionServices {
 			return null;
 		}
 	}
+
 	// save division
 	public void saveDivision(Division division) {
 		try {
 			divisionDao.saveDivision(division);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	// delete division
+	public void deleteDivision(Integer id) {
+		try {
+			divisionDao.deleteDivision(id);
 		} catch (Exception e) {
 			throw e;
 		}

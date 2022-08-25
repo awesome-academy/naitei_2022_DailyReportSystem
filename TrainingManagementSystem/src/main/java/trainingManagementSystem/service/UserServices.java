@@ -61,16 +61,14 @@ public class UserServices {
 		}
 	}
 
-
-	public List<Object[]> loadUsersNotinManagerID() {
+	public List<User> loadUsersNotinManagerID() {
 		try {
 			return userDao.loadUsersNotinManagerID();
 		} catch (Exception e) {
 			return Collections.emptyList();
-
 		}
 	}
-	
+
 	// [manager] remove user from division
 	public void removeUserFromDivision(int id) {
 		try {
@@ -79,7 +77,7 @@ public class UserServices {
 			throw e;
 		}
 	}
-	
+
 	// [manager] get user by divisionid
 	public List<User> getUserByDivisionId(int divisionId) {
 		try {
@@ -89,7 +87,6 @@ public class UserServices {
 		}
 	}
 
-	
 	// [manager] get new users (who do not belong to a division)
 	public List<User> getNewUsers() {
 		try {
@@ -98,13 +95,21 @@ public class UserServices {
 			return Collections.emptyList();
 		}
 	}
-	
+
 	// [manager] add a user to a division
 	public void addUserToDivision(int divisionId, int userId) {
 		try {
 			userDao.addUserToDivision(divisionId, userId);
 		} catch (Exception e) {
 			throw e;
+		}
+	}
+	// [admin], get all users by division id
+	public List<User> getAllUserByDivisionId(int divisionId) {
+		try {
+			return userDao.getAllUserByDivisionId(divisionId);
+		} catch (Exception e) {
+			return Collections.emptyList();
 		}
 	}
 }

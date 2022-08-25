@@ -8,8 +8,14 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
 import javax.transaction.Transactional;
+
+import org.apache.logging.log4j.spi.LoggerContextKey;
+import org.hibernate.LockMode;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.annotations.OptimisticLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
@@ -62,4 +68,23 @@ public class DivisionDao {
 		}
 	}
 
+	// delete division
+	@Transactional
+	public void deleteDivision(Integer id)
+
+	{
+		try {
+			Session session = hibernateTemplate.getSessionFactory().openSession();
+			Transaction tx = session.beginTransaction();
+
+			Division division = (Division) session.get(Division.class, id, LockMode.READ);
+
+			division.setManager(null);
+			hibernateTemplate.delete(hibernateTemplate.get(Division.class, id));
+			tx.commit();
+			session.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
