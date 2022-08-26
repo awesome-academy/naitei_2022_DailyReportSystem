@@ -50,30 +50,34 @@ public class UserDao {
 		hibernateTemplate.update(user);
 	}
 
+	
+	// Get users (role = 1) in a division
 	public List<User> getUserByDivisionId(int divisionId) {
 		Session session = hibernateTemplate.getSessionFactory().openSession();
-
-		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-		CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-		Root<User> root = criteriaQuery.from(User.class);
-		CriteriaQuery<User> selectQuery = criteriaQuery.select(root);
-		selectQuery = selectQuery.where(criteriaBuilder.equal(root.get("division"), divisionId));
-		selectQuery = selectQuery.where(criteriaBuilder.equal(root.get("role"), 1));
-		TypedQuery<User> typedQuery = session.createQuery(selectQuery);
-		List<User> users = typedQuery.getResultList();
-
+//		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+//		CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
+//		Root<User> root = criteriaQuery.from(User.class);
+//		CriteriaQuery<User> selectQuery = criteriaQuery.select(root);
+//		selectQuery = selectQuery.where(criteriaBuilder.equal(root.get("division"), divisionId));
+//		selectQuery = selectQuery.where(criteriaBuilder.equal(root.get("role"), 1));
+//		TypedQuery<User> typedQuery = session.createQuery(selectQuery);
+//		List<User> users = typedQuery.getResultList();
+		
+		Query<User> query = session.createNativeQuery("select * from users u where u.divisionId= :divisionId and role=1", User.class);
+		query.setParameter("divisionId", divisionId);
+		List<User> users = query.list();
+		
 		session.close();
 		return users;
 	}
 
-	// get users in a division
+	// get users in a division (role = 1 || role = 2)
 	public List<User> getAllUserByDivisionId(int divisionId) {
 		Session session = hibernateTemplate.getSessionFactory().openSession();
 		Query<User> query = session.createNativeQuery("select * from users u where u.divisionId= :divisionId",
 				User.class);
 		query.setParameter("divisionId", divisionId);
 		List<User> users = query.list();
-		session.close();
 		return users;
 	}
 
@@ -128,9 +132,13 @@ public class UserDao {
 			Query<User> query = session.createNativeQuery("select * from users u where u.divisionId is null and role=1",
 					User.class);
 			List<User> users = query.list();
+<<<<<<< HEAD
 
 			System.out.println(users);
 
+=======
+			
+>>>>>>> de8d4a5... [manager] - search users and see info details
 			session.close();
 			return users;
 		} catch (Exception e) {

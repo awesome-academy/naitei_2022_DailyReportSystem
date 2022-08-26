@@ -27,7 +27,8 @@ public class ManagerController {
 	public ModelAndView index(@PathVariable("id") int id) {
 		
 		ModelAndView mv = new ModelAndView("managers/manage_division");
-		mv.addObject("users", userServices.getUserByDivisionId(id));	 
+		mv.addObject("users", userServices.getUserByDivisionId(id));	
+//		mv.addObject("users", userServices.getAllUser());
 		mv.addObject("division", divisionServices.getById(id));
 		return mv;
 	}

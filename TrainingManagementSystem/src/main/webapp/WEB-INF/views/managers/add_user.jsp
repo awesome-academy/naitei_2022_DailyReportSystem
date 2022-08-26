@@ -19,8 +19,8 @@
 						<div class="search col col-12">
 							<!-- Search form -->
 							<div class="md-form mt-0">
-								<input class="form-control border-warning" type="text"
-									placeholder="Search" aria-label="Search">
+								<input class="form-control border-warning" type="text" id="searchInput"
+									placeholder="Search" aria-label="Tìm kiếm ...">
 							</div>
 						</div>
 					</div>
@@ -41,7 +41,7 @@
 							<tbody>
 								<c:forEach var="users" items="${users}">
 									<tr>
-										<td>${users.name}</td>
+										<td class="userName">${users.name}</td>
 										<td>${users.createdAt.getDayOfMonth()} - ${users.createdAt.getMonthValue()} - ${users.createdAt.getYear()}</td>
 										<td class="userId">${users.id}</td>
 										<td>${users.email}</td>
@@ -110,6 +110,38 @@
 				}
 			})
 		})
+		
+		// Search function
+		$("#searchInput").on("input", function(e) {
+			let keyword = e.target.value;
+
+			$(".userName").each(function(index) {
+				let convertedName = stringToSlug($(this).text());
+
+				// do not contain keyword				
+				if (convertedName.indexOf(stringToSlug(keyword)) == -1 
+						&& $(this).text().toLowerCase().indexOf(stringToSlug(keyword)) == -1) {
+					$(this).parent().addClass("visually-hidden");
+				} else {
+					$(this).parent().removeClass("visually-hidden");
+				}
+
+			})
+
+		})
+
+		function stringToSlug(str) {
+			// remove accents
+			var from = "àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ", to = "aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy";
+			for (var i = 0, l = from.length; i < l; i++) {
+				str = str.replace(RegExp(from[i], "gi"), to[i]);
+			}
+
+			str = str.toLowerCase().trim().replace(/[^a-z0-9\-]/g, '-')
+					.replace(/-+/g, '-');
+
+			return str;
+		}
 
 	</script>
 </body>
