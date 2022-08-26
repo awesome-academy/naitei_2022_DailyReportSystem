@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -24,9 +25,11 @@ public class User extends BaseEntity {
 
 	@NotEmpty(message = "Họ và Tên không thể để trống.")
 	private String name;
-	@Column(unique = true)
+	
+	
 	@NotEmpty(message = "Email không thể để trống.")
 	@Email(message = "Email phải hợp lệ.")
+	@Column(unique = true)
 	private String email;
 	@NotEmpty(message = "Mật khẩu không thể để trống.")
 	@Size(min=8, message = "Mật khẩu phải có ít nhất 8 ký tự.")

@@ -7,22 +7,24 @@ import org.springframework.stereotype.Service;
 
 import trainingManagementSystem.dao.AuthenticationDao;
 import trainingManagementSystem.model.User;
+import trainingManagementSystem.system.exception.UserAlreadyExistException;
 
 @Component
 @Service
 public class AuthenticationServices {
 	@Autowired
 	AuthenticationDao authenticationDao;
-	
+
 	@Autowired
-    PasswordEncoder passwordEncoder;
-	
-	public void registerUser(final User user) {
-		try {
+	PasswordEncoder passwordEncoder;
+
+	public void registerUser(final User user) throws UserAlreadyExistException {
+		if (authenticationDao.isEmailVailible(user.getEmail())) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			authenticationDao.register(user);
-		} catch (Exception e) {
-			throw e;
+		} else {
+			throw new UserAlreadyExistException();
 		}
+
 	}
 }

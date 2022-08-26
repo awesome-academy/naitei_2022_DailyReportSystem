@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import trainingManagementSystem.model.User;
 import trainingManagementSystem.service.AuthenticationServices;
+import trainingManagementSystem.system.exception.UserAlreadyExistException;
 
 @Controller
 public class RegisterController {
@@ -29,7 +30,14 @@ public class RegisterController {
 		if (bindingResult.hasErrors()) {
 			return "authentication/register";
 		}
-		authenticationServices.registerUser(user);
+		
+		try {
+			authenticationServices.registerUser(user);
+		}
+		catch (UserAlreadyExistException e) {
+			bindingResult.rejectValue("email", "users.email", "Một tài khoản khác đã sử dụng email này.");
+            return "authentication/register";
+		}
 		return "redirect: /TrainingManagementSystem/";
 	}
 }

@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/java/trainingManagementSystem/controller/RegisterController.java=UTF-8
 encoding//src/main/java/trainingManagementSystem/model/User.java=UTF-8
 encoding//src/main/java/trainingManagementSystem/model/validator/PasswordConstraint.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/layouts/users-components/navbar.jsp=UTF-8
