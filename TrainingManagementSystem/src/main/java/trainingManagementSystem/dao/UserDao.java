@@ -132,13 +132,7 @@ public class UserDao {
 			Query<User> query = session.createNativeQuery("select * from users u where u.divisionId is null and role=1",
 					User.class);
 			List<User> users = query.list();
-<<<<<<< HEAD
-
-			System.out.println(users);
-
-=======
 			
->>>>>>> de8d4a5... [manager] - search users and see info details
 			session.close();
 			return users;
 		} catch (Exception e) {

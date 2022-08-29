@@ -5,6 +5,7 @@
 	</decorator>
 	<decorator name="authentication" page="authentication.jsp">
 		<pattern>/register*</pattern>
+		<pattern>/login*</pattern>
 	</decorator>
 	<decorator name="admin" page="admins.jsp">
 		<pattern>/admin/*</pattern>

@@ -32,7 +32,13 @@ public class AuthenticationDao {
 			return false;
 		}
 		return true;
-
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public List<User> getUsersByEmail(String email) {
+		List<User> users = (List<User>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(User.class).add(Restrictions.eq("email", email)));
+		return users;
+	}
+	
 }

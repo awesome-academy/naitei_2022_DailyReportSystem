@@ -28,6 +28,7 @@ public class RegisterController {
 	@PostMapping("register")
 	public String saveUser(ModelMap model, @Valid User user, final BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("message", "Đăng ký thất bại");
 			return "authentication/register";
 		}
 		
@@ -35,9 +36,12 @@ public class RegisterController {
 			authenticationServices.registerUser(user);
 		}
 		catch (UserAlreadyExistException e) {
+			model.addAttribute("message", "Đăng ký thất bại");
 			bindingResult.rejectValue("email", "users.email", "Một tài khoản khác đã sử dụng email này.");
             return "authentication/register";
 		}
-		return "redirect: /TrainingManagementSystem/";
+		
+		model.addAttribute("message", "Đăng ký thành công");
+		return "redirect: /TrainingManagementSystem/login";
 	}
 }

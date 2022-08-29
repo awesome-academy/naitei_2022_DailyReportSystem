@@ -16,6 +16,10 @@
 					</a>
 					<h3>Đăng ký</h3>
 				</div>
+				
+				<div class="form-floating mb-3 text-center bg-danger">
+					<h5>${message}</h5>
+				</div>
 				<div class="form-floating mb-3">
 					<form:input type="text" class="form-control" id="floatingText" 
 						placeholder="jhondoe" path="name"/> 
@@ -36,7 +40,7 @@
 				</div>
 				<button type="submit" class="btn btn-primary py-3 w-100 mb-4" value="Submit">Đăng ký</button>
 				<p class="text-center mb-0">
-					Đã có tài khoản? <a href="/TrainingManagementSystem/dang-nhap">Đăng nhập</a>
+					Đã có tài khoản? <a href="/TrainingManagementSystem/login">Đăng nhập</a>
 				</p>
 			</div>
 		</div>
