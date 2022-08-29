@@ -27,7 +27,7 @@
 		</div>
 
 		<div class="navbar-nav w-100">
-			<a href="${baseURL}/manager/reports" class="nav-item nav-link"
+			<a href="${baseURL}/manager/reports?pageNumber=1" class="nav-item nav-link"
 				id="dashboard"><i class="fa-solid fa-list-check me-2"></i>Xem
 				báo cáo</a>
 		</div>

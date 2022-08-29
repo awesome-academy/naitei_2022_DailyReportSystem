@@ -33,7 +33,7 @@
 
 	<mvc:annotation-driven />
 	<mvc:resources location="/assets/" mapping="/assets/**"></mvc:resources>
-	
+
 	<!-- data source -->
 	<context:property-placeholder location="classpath:datasources.properties" />
 
@@ -62,6 +62,9 @@
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.connection.CharSet">utf8</prop>
+				<prop key="hibernate.connection.characterEncoding">utf8</prop>
+				<prop key="hibernate.connection.useUnicode">true</prop>
 			</props>
 		</property>
 

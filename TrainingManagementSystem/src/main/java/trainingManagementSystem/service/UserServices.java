@@ -1,13 +1,16 @@
 package trainingManagementSystem.service;
 
 import java.util.Collections;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import trainingManagementSystem.dao.UserDao;
+import trainingManagementSystem.model.Report;
 import trainingManagementSystem.model.User;
 
 @Component
@@ -111,6 +114,33 @@ public class UserServices {
 			return userDao.getAllUserByDivisionId(divisionId);
 		} catch (Exception e) {
 			return Collections.emptyList();
+		}
+	}
+	// save report
+	public void saveReport(Report report) {
+		try {
+			userDao.saveReport(report);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	// get number of reports
+	public int getReportsLength(int userId, @Nullable LocalDate reportDateSearch) {
+		try {
+			return userDao.getReportsLength(userId, reportDateSearch);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	// pagination reports
+	public List<Report> paginationReports(int userId, int pageNumber, int pageSize,
+			@Nullable LocalDate reportDateSearch) {
+		try {
+			return userDao.paginationReports(userId, pageNumber, pageSize, reportDateSearch);
+		} catch (Exception e) {
+			return null;
 		}
 	}
 }

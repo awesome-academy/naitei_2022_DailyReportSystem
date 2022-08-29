@@ -1,6 +1,6 @@
 package trainingManagementSystem.dao;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,9 +16,12 @@ import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.OptimisticLock;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import trainingManagementSystem.model.Division;
 import trainingManagementSystem.model.Report;
@@ -47,19 +50,68 @@ public class DivisionDao {
 		hibernateTemplate.save(division);
 	}
 
-	// pagination reports
-	public List<Report> paginationReports(int divisionId, int pageNumber, int pageSize) {
-		try (Session session = hibernateTemplate.getSessionFactory().openSession()) {
-			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-			CriteriaQuery<Report> criteriaQuery = criteriaBuilder.createQuery(Report.class);
-			Root<Report> root = criteriaQuery.from(Report.class);
-			CriteriaQuery<Report> selectQuery = criteriaQuery.select(root);
-			selectQuery = selectQuery.where(criteriaBuilder.equal(root.get("user").get("division"), divisionId));
+	// get report by id
+	public Report getReportById(Integer id, Boolean isLock) {
+		return hibernateTemplate.get(Report.class, id);
+	}
 
-			TypedQuery<Report> typedQuery = session.createQuery(selectQuery);
-			typedQuery.setFirstResult(pageNumber * pageSize);
-			typedQuery.setMaxResults(pageSize);
-			List<Report> reports = typedQuery.getResultList();
+	// get number of reports
+	public int getReportsLength(int divisionId, String txtSearch, @Nullable LocalDate reportDateSearch) {
+		try (Session session = hibernateTemplate.getSessionFactory().openSession()) {
+			Query<Report> query;
+			if (reportDateSearch != null) {
+				query = session.createNativeQuery(
+						"select r.* from Reports r join Users ur on ur.id = r.reviewerId join Users u on u.id = r.userId "
+								+ "where ur.divisionId= :divisionId and u.name like :txtSearch and DAY(r.date) = :daySearch"
+						, Report.class);
+				query.setParameter("divisionId", divisionId);
+				query.setParameter("txtSearch", "%" + txtSearch + "%");
+				query.setParameter("daySearch", reportDateSearch.getDayOfMonth());
+			} else {
+				query = session.createNativeQuery(
+						"select r.* from Reports r join Users ur on ur.id = r.reviewerId join Users u on u.id = r.userId "
+								+ "where ur.divisionId= :divisionId and u.name like :txtSearch",
+						Report.class);
+				query.setParameter("divisionId", divisionId);
+				query.setParameter("txtSearch", "%" + txtSearch + "%");
+			}
+			List<Report> reports = query.list();
+			session.close();
+
+			return reports.size();
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	// pagination reports
+	public List<Report> paginationReports(int divisionId, String txtSearch, int pageNumber, int pageSize,
+			@Nullable LocalDate reportDateSearch) {
+		try (Session session = hibernateTemplate.getSessionFactory().openSession()) {
+			Query<Report> query;
+			if (reportDateSearch != null) {
+				query = session.createNativeQuery(
+						"select r.* from Reports r join Users ur on ur.id = r.reviewerId join Users u on u.id = r.userId "
+								+ "where ur.divisionId= :divisionId and u.name like :txtSearch and DAY(r.date) = :daySearch",
+						Report.class);
+				query.setParameter("divisionId", divisionId);
+				query.setParameter("txtSearch", "%" + txtSearch + "%");
+				query.setParameter("daySearch", reportDateSearch.getDayOfMonth());
+//				query.setParameter("monthSearch", reportDateSearch.getMonth());
+//				query.setParameter("yearSearch", reportDateSearch.getYear());
+			} else {
+				query = session.createNativeQuery(
+						"select r.* from Reports r join Users ur on ur.id = r.reviewerId join Users u on u.id = r.userId "
+								+ "where ur.divisionId= :divisionId and u.name like :txtSearch",
+						Report.class);
+				query.setParameter("divisionId", divisionId);
+				query.setParameter("txtSearch", "%" + txtSearch + "%");
+			}
+
+			query.setFirstResult(pageNumber * pageSize);
+			query.setMaxResults(pageSize);
+			List<Report> reports = query.list();
+
 			session.close();
 
 			return reports;

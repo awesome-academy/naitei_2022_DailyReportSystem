@@ -1,5 +1,7 @@
 package trainingManagementSystem.dao;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
@@ -14,10 +16,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.*;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Component;
 
 import trainingManagementSystem.model.Division;
+import trainingManagementSystem.model.Report;
 import trainingManagementSystem.model.User;
 
 @Component
@@ -159,5 +164,61 @@ public class UserDao {
 		List<User> users = query.list();
 		return users;
 	}
+	@Transactional
+	public void saveReport(Report report) {
+		hibernateTemplate.save(report);
+	}
 
+	// get number of reports
+	public int getReportsLength(int userId, @Nullable LocalDate reportDateSearch) {
+		try (Session session = hibernateTemplate.getSessionFactory().openSession()) {
+			Query<Report> query;
+			if (reportDateSearch != null) {
+				query = session.createNativeQuery(
+						"select r.* from Reports r " + "where r.userId = :userId and DAY(r.date) = :daySearch",
+						Report.class);
+				query.setParameter("userId", userId);
+				query.setParameter("daySearch", reportDateSearch.getDayOfMonth());
+			} else {
+				query = session.createNativeQuery("select r.* from Reports r " + "where r.userId = :userId",
+						Report.class);
+				query.setParameter("userId", userId);
+			}
+			List<Report> reports = query.list();
+			session.close();
+
+			return reports.size();
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	// pagination reports
+	public List<Report> paginationReports(int userId, int pageNumber, int pageSize,
+			@Nullable LocalDate reportDateSearch) {
+		try (Session session = hibernateTemplate.getSessionFactory().openSession()) {
+			Query<Report> query;
+			if (reportDateSearch != null) {
+				query = session.createNativeQuery(
+						"select r.* from Reports r " + "where r.userId = :userId and DAY(r.date) = :daySearch",
+						Report.class);
+				query.setParameter("userId", userId);
+				query.setParameter("daySearch", reportDateSearch.getDayOfMonth());
+			} else {
+				query = session.createNativeQuery("select r.* from Reports r " + "where r.userId = :userId",
+						Report.class);
+				query.setParameter("userId", userId);
+			}
+
+			query.setFirstResult(pageNumber * pageSize);
+			query.setMaxResults(pageSize);
+			List<Report> reports = query.list();
+
+			session.close();
+
+			return reports;
+		} catch (Exception e) {
+			return Collections.emptyList();
+		}
+	}
 }

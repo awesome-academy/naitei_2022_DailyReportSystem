@@ -7,10 +7,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-    <title>TMS</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+<title>TMS</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="" name="keywords">
+<meta content="" name="description">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="<c:url value="/assets/common/css/bootstrap.min.css"/>" rel="stylesheet">
@@ -32,7 +32,8 @@
     <!-- Libraries Stylesheet -->
     <link href="<c:url value="/assets/common/lib/owlcarousel/assets/owl.carousel.min.css"/>" rel="stylesheet">
     <link href="<c:url value="/assets/common/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css"/>" rel="stylesheet">
-<head/>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<head />
 
 <div class="container-fluid position-relative d-flex p-0">
 	<%@ include file="/WEB-INF/views/layouts/common-components/spinner.jsp" %>

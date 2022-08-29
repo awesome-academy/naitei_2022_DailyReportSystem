@@ -1,12 +1,16 @@
 package trainingManagementSystem.service;
 
+import java.time.LocalDate;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import trainingManagementSystem.dao.*;
-import trainingManagementSystem.model.*;
+import trainingManagementSystem.dao.DivisionDao;
+import trainingManagementSystem.model.Division;
+import trainingManagementSystem.model.Report;
 
 @Component
 @Service
@@ -32,10 +36,29 @@ public class DivisionServices {
 		}
 	}
 
-	// pagination reports
-	public List<Report> paginationReports(int divisionId, int pageNumber, int pageSize) {
+	// get by id
+	public Report getReportById(Integer id, Boolean isLock) {
 		try {
-			return divisionDao.paginationReports(divisionId, pageNumber, pageSize);
+			return divisionDao.getReportById(id, isLock);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	// get number of reports
+	public int getReportsLength(int divisionId, String txtSearch, @Nullable LocalDate reportDateSearch) {
+		try {
+			return divisionDao.getReportsLength(divisionId, txtSearch, reportDateSearch);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	// pagination reports
+	public List<Report> paginationReports(int divisionId, String txtSearch, int pageNumber, int pageSize,
+			@Nullable LocalDate reportDateSearch) {
+		try {
+			return divisionDao.paginationReports(divisionId, txtSearch, pageNumber, pageSize, reportDateSearch);
 		} catch (Exception e) {
 			return null;
 		}

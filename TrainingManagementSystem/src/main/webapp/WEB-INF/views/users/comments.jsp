@@ -58,8 +58,7 @@
 						</c:forEach>
 					</ul>
 					<div class="card-footer">
-						<form:form
-							action="${baseURL}/manager/reports/${idReport}/comments"
+						<form:form action="${baseURL}/users/reports/${idReport}/comments"
 							method="POST" modelAttribute="comment">
 							<div class="input-group">
 								<form:textarea path="content" placeholder="Nhập bình luận..."
@@ -204,7 +203,7 @@ a {
 			currentRow = $(this);
 			console.log(currentRow);
 			console.log("commentId: ", commentId);
-			deleteUrl = '${pageContext.request.contextPath}/manager/comments/' + commentId;
+			deleteUrl = '${pageContext.request.contextPath}/users/comments/' + commentId;
 		})
 		
 		$("#deleteBtn").click(function(e) {

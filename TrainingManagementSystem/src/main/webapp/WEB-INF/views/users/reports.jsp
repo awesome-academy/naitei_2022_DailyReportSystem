@@ -19,8 +19,6 @@
 				<table class="table text-center">
 					<thead>
 						<tr>
-							<!-- <th scope="col">STT</th> -->
-							<th scope="col">Tên thành viên</th>
 							<th scope="col">Ngày báo cáo</th>
 							<th scope="col">Việc đã làm</th>
 							<th scope="col">Vấn đề</th>
@@ -31,24 +29,12 @@
 					<tbody id="reportsTable">
 						<tr>
 							<form:form class="d-none d-md-flex"
-								action="${baseURL}/manager/reports?pageNumber=${pageNumber }&textSearch=${searchParams.textSearch }&reportDate=${searchParams.date }"
+								action="${baseURL}/users/reports?pageNumber=${pageNumber }&reportDate=${searchParams.date }"
 								method="GET" modelAttribute="searchParams">
 								<td><button type='submit'
 										class='btn btn-square btn-secondary'>
 										<i class='fa fa-search' aria-hidden='true'></i>
 									</button></td>
-								<td><c:choose>
-										<c:when test="${searchParams.textSearch != ''}">
-											<form:input path="textSearch"
-												class="form-control force-white" type="search"
-												placeholder="${name }" value="${name }"></form:input>
-										</c:when>
-										<c:otherwise>
-											<form:input path="textSearch"
-												class="form-control force-white" type="search"
-												placeholder="Nhập tên..." value="${name }"></form:input>
-										</c:otherwise>
-									</c:choose></td>
 								<td><form:input path="date" value="${date }"
 										class="form-control force-white" type="date"></form:input></td>
 							</form:form>
@@ -58,19 +44,18 @@
 							<td></td>
 							<td></td>
 						</tr>
-            <c:forEach var="std" items="${reports}">
+						<c:forEach var='std' items='${reports}'>
 							<tr>
-								<!-- <td class="table-plus">${std.id}</td> -->
-								<td>${std.user.name}</td>
 								<td>${std.date}</td>
 								<td>${std.actualTask}</td>
 								<td>${std.plannedTask}</td>
 								<td>${std.issue}</td>
-								<td><a href="reports/${std.id}" class="btn btn-warning">Bình
-										luận</a></td>
+								<td><a href='reports/${std.id}'><button type='button'
+											class='btn btn-square btn-secondary m-2'>
+											<i class='fa fa-comments' aria-hidden='true'></i>
+										</button></a></td>
 							</tr>
 						</c:forEach>
-
 					</tbody>
 				</table>
 				<nav aria-label="Page navigation example">
@@ -78,12 +63,12 @@
 						<li class="page-item"><c:choose>
 								<c:when test="${pageNumber > 1}">
 									<a class="page-link"
-										href="?pageNumber=${pageNumber - 1 }&textSearch=${searchParams.textSearch }&reportDate=${searchParams.date }"
+										href="?pageNumber=${pageNumber - 1 }&reportDate=${searchParams.date }"
 										aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
 								</c:when>
 								<c:otherwise>
 									<a class="page-link"
-										href="?pageNumber=${pageNumber }&textSearch=${searchParams.textSearch }&reportDate=${searchParams.date }"
+										href="?pageNumber=${pageNumber }&reportDate=${searchParams.date }"
 										aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
 								</c:otherwise>
 							</c:choose></li>
@@ -93,23 +78,23 @@
 								<c:when test="${loop.index == pageNumber}">
 									<li class="page-item active" aria-current="page"><a
 										class="page-link"
-										href="?pageNumber=${loop.index }&textSearch=${searchParams.textSearch }&reportDate=${searchParams.date }">${loop.index }</a></li>
+										href="?pageNumber=${loop.index }&reportDate=${searchParams.date }">${loop.index }</a></li>
 								</c:when>
 								<c:otherwise>
 									<li class="page-item"><a class="page-link"
-										href="?pageNumber=${loop.index }&textSearch=${searchParams.textSearch }&reportDate=${searchParams.date }">${loop.index }</a></li>
+										href="?pageNumber=${loop.index }&reportDate=${searchParams.date }">${loop.index }</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
 						<c:choose>
 							<c:when test="${pageNumber < totalPages}">
 								<li class="page-item"><a class="page-link"
-									href="?pageNumber=${pageNumber + 1 }&textSearch=${searchParams.textSearch }&reportDate=${searchParams.date }"
+									href="?pageNumber=${pageNumber + 1 }&reportDate=${searchParams.date }"
 									aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 							</c:when>
 							<c:otherwise>
 								<li class="page-item"><a class="page-link"
-									href="?pageNumber=${pageNumber }&textSearch=${searchParams.textSearch }&reportDate=${searchParams.date }"
+									href="?pageNumber=${pageNumber }&reportDate=${searchParams.date }"
 									aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 							</c:otherwise>
 						</c:choose>
